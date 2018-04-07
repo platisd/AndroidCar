@@ -46,7 +46,7 @@ int SRF08::ping(){
 	Wire.write(byte(0x02));
 	Wire.endTransmission();
 	Wire.requestFrom(_address, uint8_t (2));
-	while (Wire.available() < 2);
+	if (!Wire.available()) return -1;
 	byte high = Wire.read();
 	byte low = Wire.read();
 	return (high << 8) + low;

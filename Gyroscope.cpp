@@ -55,13 +55,13 @@ void Gyroscope::update(){
 		}
 		unsigned long now = millis();
 		_angularDisplacement += gyroRate / (1000 / (now - _prevSample));
-		_prevSample = now; 
+		_prevSample = now;
 	}
 }
 
 void Gyroscope::initializeGyro(){
 	Wire.begin();
-	setupL3G4200D(2000); // Configure L3G4200 at 2000 deg/sec. Other options: 250, 500 (NOT suggested, will have to redetermine offset) 
+	setupL3G4200D(2000); // Configure L3G4200 at 2000 deg/sec. Other options: 250, 500 (NOT suggested, will have to redetermine offset)
 }
 
 /* based on the bildr.org example: http://bildr.org/2011/06/l3g4200d-arduino/ */
@@ -101,7 +101,7 @@ int Gyroscope::setupL3G4200D(int scale){
 }
 
 void Gyroscope::writeRegister(int deviceAddress, byte address, byte val) {
-	Wire.beginTransmission(deviceAddress); // start transmission to device 
+	Wire.beginTransmission(deviceAddress); // start transmission to device
 	Wire.write(address);       // send register address
 	Wire.write(val);         // send value to write
 	Wire.endTransmission();     // end transmission
@@ -114,9 +114,7 @@ int Gyroscope::readRegister(int deviceAddress, byte address){
 	Wire.endTransmission();
 	Wire.requestFrom(deviceAddress, 1); // read a byte
 
-	while(!Wire.available()) {
-		//waiting
- 	}
+	if (!Wire.available()) return -1;
 
 	v = Wire.read();
 
